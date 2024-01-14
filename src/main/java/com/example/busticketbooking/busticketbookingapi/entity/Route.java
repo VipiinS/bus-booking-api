@@ -1,13 +1,13 @@
 package com.example.busticketbooking.busticketbookingapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -17,13 +17,15 @@ import java.util.List;
 @Builder
 public class Route {
     @Id
-    private  Long id;
+    @GeneratedValue
+    private Long id;
     private String origin;
     private String destination;
-    private Integer distance;
-    private  Integer duration;
+    private LocalDate date;
+    private LocalTime departureTime;
+    private LocalTime arrivalTime;
 
     @OneToMany(mappedBy = "route")
-    private List<Bus> buses; // one route has many buses
+    private List<Bus> buses;
 
 }

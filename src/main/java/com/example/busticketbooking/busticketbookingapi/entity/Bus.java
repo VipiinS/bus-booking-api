@@ -3,6 +3,7 @@ package com.example.busticketbooking.busticketbookingapi.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -17,9 +18,12 @@ public class Bus {
     private String registrationNumber;
     private Integer capacity;
     private String type;
+
     @OneToMany(mappedBy = "bus")
     private List<Seat> seats;
 
     @ManyToOne
+    @JoinColumn(name = "route_id")
     private Route route;
+    private double fare;
 }
