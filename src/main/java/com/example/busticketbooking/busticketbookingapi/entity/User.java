@@ -1,10 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
+@Table(name = "user_")
 public class User {
     @Id
     private Long id;
@@ -28,4 +26,5 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings;
+
 }

@@ -1,29 +1,31 @@
 package com.example.busticketbooking.busticketbookingapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Entity
+@Table(name = "seat")  // Explicitly define the table name
 public class Seat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer seatNumber;
-    private String status;
-    private String type;
-    private BigDecimal price;
 
+    @Column(name = "seat_number")
+    private Integer seatNumber;
+
+    @Column(name="isBooked")
+    private Boolean isBooked;
+
+    @Column(length = 20)
+    private String type;
+
+    @Column(precision = 10, scale = 2)  // Adjust precision and scale if required
+    private BigDecimal price;
     @ManyToOne
     private Bus bus;
+
+
 }
