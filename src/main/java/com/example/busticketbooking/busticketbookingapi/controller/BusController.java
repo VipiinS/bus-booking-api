@@ -1,14 +1,13 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
+import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,8 @@ public class BusController {
 
     @Autowired
     private BusService busService;
+    @Autowired
+    private SeatService seatService;
 
     @GetMapping("/searchByRoute")
     public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
@@ -28,6 +29,16 @@ public class BusController {
             List<BusDto> busDtos = convertBusToBusDto(buses);
             return ResponseEntity.ok(busDtos);
         }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{busId}/seats")
+    public ResponseEntity<?> getSeatsByBusId(@PathVariable Long busId){
+        try {
+            List<SeatDto> seatDtos = seatService.getSeatsByBusId(busId);
+            return ResponseEntity.ok(seatDtos);
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
