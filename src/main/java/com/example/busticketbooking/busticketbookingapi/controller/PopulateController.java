@@ -33,7 +33,7 @@ public class PopulateController {
     public ResponseEntity<?> populateBus(@RequestBody BusDto busData){
         try {
             populateService.populateBus(busData);
-            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to"+ busData.getRouteId()+" successfully");
+            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to "+ busData.getRouteId()+" successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

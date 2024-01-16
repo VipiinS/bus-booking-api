@@ -25,5 +25,5 @@ public class Bus {
     @ManyToOne
     @JoinColumn(name = "route_id")
     private Route route;
-    private double fare;
+    private BigDecimal fare;
 }

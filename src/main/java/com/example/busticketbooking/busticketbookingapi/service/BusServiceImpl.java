@@ -34,7 +34,12 @@ public class BusServiceImpl implements BusService {
                 cb.equal(root.get("route").get("origin"),origin),
                 cb.equal(root.get("route").get("destination"),destination)
         );
+
+        List<Bus> buses = entityManager.createQuery(cq).getResultList();
+
         return entityManager.createQuery(cq)
                 .getResultList();
+
+
     }
 }

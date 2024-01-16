@@ -4,8 +4,10 @@ import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
 import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.entity.Route;
+import com.example.busticketbooking.busticketbookingapi.entity.Seat;
 import com.example.busticketbooking.busticketbookingapi.repository.BusRepository;
 import com.example.busticketbooking.busticketbookingapi.repository.RouteRepository;
+import com.example.busticketbooking.busticketbookingapi.repository.SeatRepository;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 
 import org.hibernate.ObjectNotFoundException;
@@ -23,6 +25,9 @@ public class PopulateServiceImpl implements PopulateService {
     private RouteRepository routeRepository;
     @Autowired
     private BusRepository busRepository;
+    @Autowired
+    private SeatRepository seatRepository;
+
     public void populateRoutes(RouteDto routeData) {
         Route route = new Route();
         route.setOrigin(routeData.getOrigin());
@@ -38,8 +43,12 @@ public class PopulateServiceImpl implements PopulateService {
 
     @Override
     public void populateBus(BusDto busData) {
-        Optional<Route> route = routeRepository.findById(busData.getRouteId());
-
+        Optional<Route> route;
+        try {
+            route = routeRepository.findById(busData.getRouteId());
+        }catch (Exception e){
+            throw new RouteNotFoundException(busData.getRouteId());
+        }
         if (route.isPresent()) {
 
             Bus bus = new Bus();
@@ -50,15 +59,33 @@ public class PopulateServiceImpl implements PopulateService {
             bus.setType(busData.getType());
             bus.setRoute(route.get());
 
-            busRepository.save(bus);
+            busRepository.save(bus); //*Saving Bus to get its ID for Seat generation.
+
+            populateSeats(bus);  //*Populating Seats for the bus
+
         }
         else{
-            String hi = "no";
-            Object Route = new Route();
-            throw new ObjectNotFoundException(Route,hi);
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void populateSeats(Bus bus) {
+        for (int i = 1; i <= bus.getCapacity(); i++) {
+            Seat seat = new Seat();
+            seat.setSeatNumber(i);
+            seat.setIsBooked(false);  // Initially set all seats as available
+            seat.setType("Regular");
+            seat.setPrice(bus.getFare());  // Inherit fare from bus
+            seat.setBus(bus);
+            seatRepository.save(seat);  // Save
         }
     }
 
 
-
+    public class RouteNotFoundException extends RuntimeException {
+        public RouteNotFoundException(long routeId) {
+            super("Route with ID " + routeId + " not found");
+        }
+    }
 }
