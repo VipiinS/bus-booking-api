@@ -22,6 +22,11 @@ public class BusController {
     @Autowired
     private SeatService seatService;
 
+    @GetMapping("/")
+    public ResponseEntity<String> openForUser(){
+        return ResponseEntity.ok("OpenForUser endpoint accessed");
+    }
+
     @GetMapping("/searchByRoute")
     public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
                                                        @RequestParam("destination") String destination){
