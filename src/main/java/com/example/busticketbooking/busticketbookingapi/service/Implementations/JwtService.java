@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.service;
+package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -56,13 +56,15 @@ public class JwtService {
 
     public List<String> extractRoles(String token) {
         Object roles = extractClaim(token, claims -> claims.get("roles"));
+        List<String> roleList = new ArrayList<>();
+
         if (roles instanceof List<?>) {
-            // Extract roles as strings
-            return ((List<?>) roles).stream()
-                    .map(Object::toString)
-                    .collect(Collectors.toList());
+            for (Object role : (List<?>) roles) {
+                roleList.add(role.toString());
+            }
         }
-        return Collections.emptyList();
+
+        return roleList;
     }
 
 

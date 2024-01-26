@@ -1,6 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.filter;
 
-import com.example.busticketbooking.busticketbookingapi.service.JwtService;
+import com.example.busticketbooking.busticketbookingapi.service.Implementations.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

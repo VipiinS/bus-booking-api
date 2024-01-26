@@ -2,7 +2,7 @@ package com.example.busticketbooking.busticketbookingapi.config;
 
 import com.example.busticketbooking.busticketbookingapi.entity.User;
 import com.example.busticketbooking.busticketbookingapi.filter.JwtAuthFilter;
-import com.example.busticketbooking.busticketbookingapi.service.JwtService;
+import com.example.busticketbooking.busticketbookingapi.service.Implementations.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,8 +48,10 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/open/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasRole("USER")
+                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/book/**").permitAll()
+
                 )
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

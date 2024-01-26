@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.service;
+package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
@@ -26,6 +26,7 @@ public class BusServiceImpl implements BusService {
     private EntityManager entityManager;
     @Override
     public List<Bus> findBusByRoute(String origin, String destination) {
+
         System.out.println("in impl");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Bus> cq = cb.createQuery(Bus.class);

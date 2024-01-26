@@ -15,8 +15,8 @@ import java.util.List;
 public class UserRegisterDto {
 
     private String username;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String email;
     private String password;
     private List<String> roles;

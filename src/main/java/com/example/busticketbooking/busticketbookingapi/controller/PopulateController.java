@@ -18,12 +18,11 @@ public class PopulateController {
     private PopulateService populateService;
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> AdminEndpoint() {
         return ResponseEntity.ok("Admin Endpoint Accessed");
     }
 
-    @PostMapping("/routes")
+    @PostMapping("/add-route")
     public ResponseEntity<?> populateRoutes(@RequestBody RouteDto routeData) {
         try {
             populateService.populateRoutes(routeData);
@@ -33,7 +32,7 @@ public class PopulateController {
         }
     }
 
-    @PostMapping("/bus")
+    @PostMapping("/add-bus")
     public ResponseEntity<?> populateBus(@RequestBody BusDto busData){
         try {
             populateService.populateBus(busData);

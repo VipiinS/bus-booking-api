@@ -1,10 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.math.BigDecimal;
@@ -22,15 +19,14 @@ public class Booking {
     private Long id;
     private LocalDate date;
     private BigDecimal fare;
-    private String status;
-    private String ticketId;
-    @ManyToOne
-    private User user;
+    private Boolean isConfirmed;
     @ManyToOne
     private Bus bus;
     @ManyToOne
     private Route route;
-
-//    private List<Seat> seats_Booked;
+    @OneToMany
+    private List<Seat> seats_Booked;
+    @ManyToOne
+    private User user;
 
 }

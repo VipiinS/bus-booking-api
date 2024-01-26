@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.service;
+package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
 import com.example.busticketbooking.busticketbookingapi.dto.JwtResponseDTO;
 import com.example.busticketbooking.busticketbookingapi.dto.SignInDto;
@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
         user.setPassword(encodedPassword);
         user.setUsername(requestDto.getUsername());
+        user.setEmail(requestDto.getEmail());
+        user.setFirstName(requestDto.getFirstname());
+        user.setLastName(requestDto.getLastname());
 
 
         // Convert role names to Role enum instances

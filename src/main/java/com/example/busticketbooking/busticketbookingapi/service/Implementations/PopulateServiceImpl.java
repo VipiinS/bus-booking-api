@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.service;
+package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
 import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
@@ -78,6 +78,7 @@ public class PopulateServiceImpl implements PopulateService {
             seat.setType("Regular");
             seat.setPrice(bus.getFare());  // Inherit fare from bus
             seat.setBus(bus);
+            seat.setIsReserved(false);
             seatRepository.save(seat);  // Save
         }
     }
