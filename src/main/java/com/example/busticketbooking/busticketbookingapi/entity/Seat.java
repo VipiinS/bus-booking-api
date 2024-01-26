@@ -1,13 +1,17 @@
 package com.example.busticketbooking.busticketbookingapi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "seat")  // Explicitly define the table name
+@Table(name = "seat")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +23,21 @@ public class Seat {
     @Column(name="isBooked")
     private Boolean isBooked;
 
+    @Column(name = "isReserved")
+    private Boolean isReserved;
+
     @Column(length = 20)
     private String type;
 
-    @Column(precision = 10, scale = 2)  // Adjust precision and scale if required
+    @Column(name = "price")
     private BigDecimal price;
+
     @ManyToOne
     private Bus bus;
 
 
+    public void Seat(){
+        this.isReserved = false;
+        this.isBooked = false;
+    }
 }

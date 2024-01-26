@@ -1,5 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;

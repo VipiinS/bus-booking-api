@@ -11,7 +11,6 @@ public class BusDto {
     private String registrationNumber;
     private Integer capacity;
     private String type;
-    private Route route;
     private BigDecimal fare;
     private Long routeId;
 }

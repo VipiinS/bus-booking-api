@@ -6,20 +6,23 @@ import com.example.busticketbooking.busticketbookingapi.service.Interfaces.Popul
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/populate")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class PopulateController {
 
     @Autowired
     private PopulateService populateService;
 
-    @PostMapping("/routes")
+    @GetMapping("/")
+    public ResponseEntity<String> AdminEndpoint() {
+        return ResponseEntity.ok("Admin Endpoint Accessed");
+    }
+
+    @PostMapping("/add-route")
     public ResponseEntity<?> populateRoutes(@RequestBody RouteDto routeData) {
         try {
             populateService.populateRoutes(routeData);
@@ -29,7 +32,7 @@ public class PopulateController {
         }
     }
 
-    @PostMapping("/bus")
+    @PostMapping("/add-bus")
     public ResponseEntity<?> populateBus(@RequestBody BusDto busData){
         try {
             populateService.populateBus(busData);
