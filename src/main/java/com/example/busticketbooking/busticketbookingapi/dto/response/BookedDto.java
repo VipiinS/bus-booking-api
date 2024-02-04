@@ -1,8 +1,6 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
+package com.example.busticketbooking.busticketbookingapi.dto.response;
 
 import com.example.busticketbooking.busticketbookingapi.entity.*;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

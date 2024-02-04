@@ -1,6 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.JwtResponseDTO;
+import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
 import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Role;

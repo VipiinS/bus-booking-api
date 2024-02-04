@@ -1,7 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.SeatDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;

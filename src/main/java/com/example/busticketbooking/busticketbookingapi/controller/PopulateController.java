@@ -1,12 +1,11 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -1,8 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.service.Interfaces;
 
-import com.example.busticketbooking.busticketbookingapi.dto.SeatDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Seat;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.service.Interfaces;
 
-import com.example.busticketbooking.busticketbookingapi.dto.JwtResponseDTO;
+import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
 import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
 import org.springframework.http.ResponseEntity;

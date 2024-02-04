@@ -3,8 +3,11 @@ package com.example.busticketbooking.busticketbookingapi.controller;
 import com.example.busticketbooking.busticketbookingapi.dto.*;
 import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
+import com.example.busticketbooking.busticketbookingapi.service.Interfaces.RouteService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class OpenController {
     @Autowired
     private SeatService seatService;
     private final UserService userService;
+    private final RouteService routeService;
 
    @PostMapping("/")
    public String open(){
@@ -52,6 +56,11 @@ public class OpenController {
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/all-routes")
+    public ResponseEntity<?> getAllRoutes(){
+       return routeService.getAllRoutes();
     }
 
     @GetMapping("/{busId}/seats")

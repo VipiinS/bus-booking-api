@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
+package com.example.busticketbooking.busticketbookingapi.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

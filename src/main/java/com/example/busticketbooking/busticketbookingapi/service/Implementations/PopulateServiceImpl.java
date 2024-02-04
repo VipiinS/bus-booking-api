@@ -1,7 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
 import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.entity.Route;
 import com.example.busticketbooking.busticketbookingapi.entity.Seat;
@@ -10,7 +10,6 @@ import com.example.busticketbooking.busticketbookingapi.repository.RouteReposito
 import com.example.busticketbooking.busticketbookingapi.repository.SeatRepository;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
