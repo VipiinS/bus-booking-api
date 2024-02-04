@@ -13,9 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -41,55 +39,29 @@ public class BookingServiceImpl implements BookingService {
         //fetching user
         User user = userRepository.findByUsername(bookingDto.getUsername());
         if(user == null) throw new UsernameNotFoundException("user: " + bookingDto.getUsername() +" not found");
-        System.out.println("User: "+ user.getUsername());
 
         //fetching Bus
         Optional<Bus> busOptional= busRepository.findById(bookingDto.getBusId());
         if(!busOptional.isPresent()) throw new NoSuchElementException("bus of id:"+ bookingDto.getBusId() +" not found");
         Bus bus = busOptional.get();
-        System.out.println("bus id: "+ bus.getId());
 
         //fetching route
-        System.out.println("searching route " + bus.getRoute().getId());
         Optional<Route> routeOptional = routeRepository.findById(bus.getRoute().getId());
         if(!routeOptional.isPresent()) throw new NoSuchElementException("route  not found");
         Route route = routeOptional.get();
-        System.out.println("route id: " + route.getId()+" found");
 
 
         //calculating fare price
         BigDecimal seatQuantity = BigDecimal.valueOf(seats.size());
         BigDecimal farePrice = bus.getFare().multiply(seatQuantity);
 
-        Booking booking = new Booking();
-        booking.setSeats_Booked(seats);
-        booking.setUser(user);
-        booking.setBus(bus);
-        booking.setRoute(route);
-        booking.setDate(route.getDate());
-        booking.setFare(farePrice);
+        //creating a Booking object to save in the DB
+        Booking booking = new Booking(user,bus,route,seats,farePrice);
         booking.setIsConfirmed(true);
         bookingRepository.save(booking);
 
-        BookedDto bookedDto = new BookedDto();
-        bookedDto.setBookingId(booking.getId());
-        bookedDto.setBookedDate(booking.getDate());
-        bookedDto.setFare(farePrice);
-        bookedDto.setBooked(booking.getIsConfirmed());
-        bookedDto.setBusNumber(bus.getRegistrationNumber());
-        bookedDto.setOrigin(route.getOrigin());
-        bookedDto.setDestination(route.getDestination());
-        bookedDto.setDate(route.getDate());
-        bookedDto.setDepartureTime(route.getDepartureTime());
-        bookedDto.setArrivalTime(route.getArrivalTime());
+        // returning a Response of Booked Dto
+        return new BookedDto(booking,bus,route,seats,farePrice);
 
-        List<Integer> seatNumbers = new ArrayList<>();
-        for (Seat seat: seats) {
-            seatNumbers.add(seat.getSeatNumber());
-        }
-        bookedDto.setSeats_Booked(seatNumbers);
-
-
-        return bookedDto;
     }
 }

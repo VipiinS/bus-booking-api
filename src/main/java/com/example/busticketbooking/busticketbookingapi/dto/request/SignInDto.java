@@ -1,4 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
+package com.example.busticketbooking.busticketbookingapi.dto.request;
 
 
 import lombok.AllArgsConstructor;
@@ -12,5 +12,5 @@ public class SignInDto {
 
     String Username;
     String password;
-
+    String email;
 }

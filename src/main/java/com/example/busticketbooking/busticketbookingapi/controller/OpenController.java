@@ -1,6 +1,8 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
 import com.example.busticketbooking.busticketbookingapi.dto.*;
+import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/open")
 @RequiredArgsConstructor
+@CrossOrigin
 public class OpenController {
 
     @Autowired
