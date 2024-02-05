@@ -1,6 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,8 @@ public class PopulateController {
     @PostMapping("/add-route")
     public ResponseEntity<?> populateRoutes(@RequestBody RouteDto routeData) {
         try {
-            populateService.populateRoutes(routeData);
-            return ResponseEntity.ok("Route from "+ routeData.getOrigin()+"to "+ routeData.getDestination()+" successfully");
+            Long routeId = populateService.populateRoutes(routeData);
+            return ResponseEntity.ok("Route from "+ routeData.getPickup()+" to "+ routeData.getDestination()+" successfully with route id: " + routeId);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

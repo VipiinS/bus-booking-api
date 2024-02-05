@@ -36,7 +36,7 @@ public class BookedDto {
         bookedDto.setFare(farePrice);
         bookedDto.setBooked(booking.getIsConfirmed());
         bookedDto.setBusNumber(bus.getRegistrationNumber());
-        bookedDto.setOrigin(route.getOrigin());
+        bookedDto.setOrigin(route.getPickup());
         bookedDto.setDestination(route.getDestination());
         bookedDto.setDate(route.getDate());
         bookedDto.setDepartureTime(route.getDepartureTime());

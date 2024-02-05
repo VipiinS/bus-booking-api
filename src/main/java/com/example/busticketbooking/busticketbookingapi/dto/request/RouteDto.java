@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 @Data
 public class RouteDto {
-    private String origin;
+    private String pickup;
     private String destination;
     private LocalDate date;
     private LocalTime departureTime;

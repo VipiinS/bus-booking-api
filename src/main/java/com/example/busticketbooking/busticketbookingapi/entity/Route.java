@@ -19,7 +19,7 @@ public class Route {
     @Id
     @GeneratedValue
     private Long id;
-    private String origin;
+    private String pickup;
     private String destination;
     private LocalDate date;
     private LocalTime departureTime;

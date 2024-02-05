@@ -1,8 +1,9 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
-import com.example.busticketbooking.busticketbookingapi.dto.*;
+
 import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.AllBusesDto;
 import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
 import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
@@ -47,12 +48,13 @@ public class OpenController {
 
 
     @GetMapping("/searchByRoute")
-    public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
-                                            @RequestParam("destination") String destination){
+    public ResponseEntity<?> findBusByRoute(@RequestParam("pickup") String pickup,@RequestParam("destination") String destination){
+
+            System.out.println("origin: "+pickup+ "destination: " + destination);
         try{
-            List<Bus> buses = busService.findBusByRoute(origin,destination);
-            List<BusDto> busDtos = busService.convertBusToBusDto(buses);
-            return ResponseEntity.ok(busDtos);
+            List<Bus> buses = busService.findBusByRoute(pickup,destination);
+            List<AllBusesDto> allBusesDtos = busService.convertBusToBusDto(buses);
+            return ResponseEntity.ok(allBusesDtos);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

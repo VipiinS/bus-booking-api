@@ -16,7 +16,7 @@ private final RouteRepository routeRepository;
     @Override
     public ResponseEntity<?> getAllRoutes() {
         try {
-            List<String> origin = routeRepository.findAllOrigins();
+            List<String> origin = routeRepository.findAllPickup();
             List<String> destination = routeRepository.findAllDestinations();
 
             AllRoutesDto allRoutesDto = new AllRoutesDto(origin,destination);

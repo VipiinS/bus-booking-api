@@ -1,6 +1,6 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.entity.Route;
@@ -27,17 +27,20 @@ public class PopulateServiceImpl implements PopulateService {
     @Autowired
     private SeatRepository seatRepository;
 
-    public void populateRoutes(RouteDto routeData) {
+    public Long populateRoutes(RouteDto routeData) {
+        if(routeData.getPickup() == null || routeData.getDestination() == null){
+            throw new RuntimeException("Route needs origin and destination to persist");
+        }
         Route route = new Route();
-        route.setOrigin(routeData.getOrigin());
+        route.setPickup(routeData.getPickup());
         route.setDestination(routeData.getDestination());
         route.setDate(routeData.getDate());
         route.setDepartureTime(routeData.getDepartureTime());
         route.setArrivalTime(routeData.getArrivalTime());
 
-        routeRepository.save(route);
+        Route savedRoute = routeRepository.save(route);
 
-
+        return savedRoute.getId();
     }
 
     @Override

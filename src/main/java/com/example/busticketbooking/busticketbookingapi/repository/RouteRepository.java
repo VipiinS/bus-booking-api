@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface RouteRepository extends JpaRepository<Route,Long> {
 
  Optional<Route> findById(Long routeId);
- @Query("SELECT DISTINCT r.origin FROM Route r")
- List<String> findAllOrigins();
+ @Query("SELECT DISTINCT r.pickup FROM Route r")
+ List<String> findAllPickup();
  @Query("SELECT DISTINCT r.destination FROM Route r")
  List<String> findAllDestinations();
 }
