@@ -1,10 +1,11 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
+package com.example.busticketbooking.busticketbookingapi.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,4 +21,10 @@ public class UserRegisterDto {
     private String email;
     private String password;
     private List<String> roles;
+
+
+    //if no roles are given in a request, the default will be USER
+    void UserRegisterDto(){
+        this.roles.add("USER");
+    }
 }

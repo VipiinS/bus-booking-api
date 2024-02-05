@@ -1,11 +1,9 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
 
-import com.example.busticketbooking.busticketbookingapi.dto.BookedDto;
-import com.example.busticketbooking.busticketbookingapi.dto.SeatBookingDto;
-import com.example.busticketbooking.busticketbookingapi.entity.Booking;
+import com.example.busticketbooking.busticketbookingapi.dto.response.BookedDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.SeatBookingDto;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BookingService;
-import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

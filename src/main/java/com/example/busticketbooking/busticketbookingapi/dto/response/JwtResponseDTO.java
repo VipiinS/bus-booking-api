@@ -1,5 +1,4 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
-
+package com.example.busticketbooking.busticketbookingapi.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInDto {
-
-    String Username;
-    String password;
-
+public class JwtResponseDTO {
+    String token;
 }

@@ -1,12 +1,11 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.AllBusesDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.repository.BusRepository;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -25,7 +24,7 @@ public class BusServiceImpl implements BusService {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<Bus> findBusByRoute(String origin, String destination) {
+    public List<Bus> findBusByRoute(String pickup, String destination) {
 
         System.out.println("in impl");
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -34,27 +33,31 @@ public class BusServiceImpl implements BusService {
         cq.select(root);
 
         cq.where(
-                cb.equal(root.get("route").get("origin"),origin),
+                cb.equal(root.get("route").get("pickup"),pickup),
                 cb.equal(root.get("route").get("destination"),destination)
         );
-
-        List<Bus> buses = entityManager.createQuery(cq).getResultList();
-
-        return entityManager.createQuery(cq)
+        try{
+            List<Bus> buses = entityManager.createQuery(cq).getResultList();
+            return entityManager.createQuery(cq)
                 .getResultList();
+        }catch (Exception e){
+            throw new RuntimeException("no Buses found on requested routes..");
+        }
+
     }
-    public List<BusDto> convertBusToBusDto(List<Bus> buses) {
-        List<BusDto> busDtos = new ArrayList<>();
+    public List<AllBusesDto> convertBusToBusDto(List<Bus> buses) {
+        List<AllBusesDto> allBusesDtos = new ArrayList<>();
 
         for(Bus bus : buses){
-            BusDto busDto = new BusDto();
 
-            busDto.setRegistrationNumber(bus.getRegistrationNumber());
-            busDto.setFare(bus.getFare());
-            busDto.setType(bus.getType());
-            busDto.setCapacity(bus.getCapacity());
-            busDtos.add(busDto);
+            AllBusesDto allBusesDto = new AllBusesDto();
+            allBusesDto.setRegistrationNumber(bus.getRegistrationNumber());
+            allBusesDto.setFare(bus.getFare());
+            allBusesDto.setType(bus.getType());
+            allBusesDto.setCapacity(bus.getCapacity());
+
+            allBusesDtos.add(allBusesDto);
         }
-        return busDtos;
+        return allBusesDtos;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.SeatDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
@@ -26,17 +26,17 @@ public class BusController {
         return ResponseEntity.ok("OpenForUser endpoint accessed");
     }
 
-    @GetMapping("/searchByRoute")
-    public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
-                                                       @RequestParam("destination") String destination){
-        try{
-            List<Bus> buses = busService.findBusByRoute(origin,destination);
-            List<BusDto> busDtos = convertBusToBusDto(buses);
-            return ResponseEntity.ok(busDtos);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+//    @GetMapping("/searchByRoute")
+//    public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
+//                                                       @RequestParam("destination") String destination){
+//        try{
+//            List<Bus> buses = busService.findBusByRoute(origin,destination);
+//            List<BusDto> busDtos = convertBusToBusDto(buses);
+//            return ResponseEntity.ok(busDtos);
+//        }catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
     @GetMapping("/{busId}/seats")
     public ResponseEntity<?> getSeatsByBusId(@PathVariable Long busId){

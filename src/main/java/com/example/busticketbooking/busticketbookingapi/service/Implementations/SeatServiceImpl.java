@@ -1,14 +1,12 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.SeatDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Seat;
 import com.example.busticketbooking.busticketbookingapi.repository.SeatRepository;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,14 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
-import com.example.busticketbooking.busticketbookingapi.dto.*;
+
+import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.AllBusesDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
+import com.example.busticketbooking.busticketbookingapi.dto.response.SeatDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.BusService;
+import com.example.busticketbooking.busticketbookingapi.service.Interfaces.RouteService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.SeatService;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/open")
 @RequiredArgsConstructor
+@CrossOrigin
 public class OpenController {
 
     @Autowired
@@ -22,6 +29,7 @@ public class OpenController {
     @Autowired
     private SeatService seatService;
     private final UserService userService;
+    private final RouteService routeService;
 
    @PostMapping("/")
    public String open(){
@@ -40,15 +48,21 @@ public class OpenController {
 
 
     @GetMapping("/searchByRoute")
-    public ResponseEntity<?> findBusByRoute(@RequestParam("origin") String origin,
-                                            @RequestParam("destination") String destination){
+    public ResponseEntity<?> findBusByRoute(@RequestParam("pickup") String pickup,@RequestParam("destination") String destination){
+
+            System.out.println("origin: "+pickup+ "destination: " + destination);
         try{
-            List<Bus> buses = busService.findBusByRoute(origin,destination);
-            List<BusDto> busDtos = busService.convertBusToBusDto(buses);
-            return ResponseEntity.ok(busDtos);
+            List<Bus> buses = busService.findBusByRoute(pickup,destination);
+            List<AllBusesDto> allBusesDtos = busService.convertBusToBusDto(buses);
+            return ResponseEntity.ok(allBusesDtos);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/all-routes")
+    public ResponseEntity<?> getAllRoutes(){
+       return routeService.getAllRoutes();
     }
 
     @GetMapping("/{busId}/seats")

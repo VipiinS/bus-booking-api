@@ -1,16 +1,13 @@
-package com.example.busticketbooking.busticketbookingapi.dto;
+package com.example.busticketbooking.busticketbookingapi.dto.response;
 
-import com.example.busticketbooking.busticketbookingapi.entity.Route;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-
 @Data
-public class BusDto {
+public class AllBusesDto {
     private String registrationNumber;
     private Integer capacity;
     private String type;
     private BigDecimal fare;
-    private Long routeId;
 }

@@ -1,7 +1,7 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.entity.Route;
 import com.example.busticketbooking.busticketbookingapi.entity.Seat;
@@ -10,7 +10,6 @@ import com.example.busticketbooking.busticketbookingapi.repository.RouteReposito
 import com.example.busticketbooking.busticketbookingapi.repository.SeatRepository;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,45 +27,40 @@ public class PopulateServiceImpl implements PopulateService {
     @Autowired
     private SeatRepository seatRepository;
 
-    public void populateRoutes(RouteDto routeData) {
-        Route route = new Route();
-        route.setOrigin(routeData.getOrigin());
-        route.setDestination(routeData.getDestination());
-        route.setDate(routeData.getDate());
-        route.setDepartureTime(routeData.getDepartureTime());
-        route.setArrivalTime(routeData.getArrivalTime());
+    public Long populateRoutes(RouteDto routeData) {
+        if(routeData.getPickup() == null || routeData.getDestination() == null){
+            throw new RuntimeException("Route needs origin and destination to persist");
+        }
+        Route route = new Route(routeData);
+        Route savedRoute = routeRepository.save(route);
 
-        routeRepository.save(route);
-
-
+        return savedRoute.getId();
     }
 
     @Override
-    public void populateBus(BusDto busData) {
-        Optional<Route> route;
-        try {
-            route = routeRepository.findById(busData.getRouteId());
-        }catch (Exception e){
-            throw new RouteNotFoundException(busData.getRouteId());
-        }
-        if (route.isPresent()) {
+    public Bus populateBus(BusDto busData) {
+        Optional<Route> routeOptional = routeRepository.findByPickupAndDestination(busData.getPickup(), busData.getDestination());
+        Route route;
+        if (routeOptional.isPresent()) {
+            route = routeOptional.get();
+        } else {
 
-            Bus bus = new Bus();
-
-            bus.setRegistrationNumber(busData.getRegistrationNumber());
-            bus.setCapacity(busData.getCapacity());
-            bus.setFare(busData.getFare());
-            bus.setType(busData.getType());
-            bus.setRoute(route.get());
-
-            busRepository.save(bus); //*Saving Bus to get its ID for Seat generation.
-
-            populateSeats(bus);  //*Populating Seats for the bus
+            // Create a new route if it doesn't exist
+            route = new Route();
+            route.setPickup(busData.getPickup());
+            route.setDestination(busData.getDestination());
+            // Set other route properties as needed
+            route = routeRepository.save(route);
 
         }
-        else{
-            throw new RuntimeException();
-        }
+
+        // Creating the bus
+        Bus bus = new Bus(busData,route);
+        busRepository.save(bus);
+
+        // Populate seats for the bus
+        populateSeats(bus);
+        return bus;
     }
 
     @Override

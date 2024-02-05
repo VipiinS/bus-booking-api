@@ -29,4 +29,14 @@ public class Booking {
     @ManyToOne
     private User user;
 
+    public Booking(User user,Bus bus,Route route,List<Seat> seats,BigDecimal farePrice){
+        Booking booking = new Booking();
+        booking.setSeats_Booked(seats);
+        booking.setUser(user);
+        booking.setBus(bus);
+        booking.setRoute(route);
+        booking.setDate(route.getDate());
+        booking.setFare(farePrice);
+    }
+
 }

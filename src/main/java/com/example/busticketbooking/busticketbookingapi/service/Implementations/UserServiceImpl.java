@@ -1,8 +1,8 @@
 package com.example.busticketbooking.busticketbookingapi.service.Implementations;
 
-import com.example.busticketbooking.busticketbookingapi.dto.JwtResponseDTO;
-import com.example.busticketbooking.busticketbookingapi.dto.SignInDto;
-import com.example.busticketbooking.busticketbookingapi.dto.UserRegisterDto;
+import com.example.busticketbooking.busticketbookingapi.dto.response.JwtResponseDTO;
+import com.example.busticketbooking.busticketbookingapi.dto.request.SignInDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.UserRegisterDto;
 import com.example.busticketbooking.busticketbookingapi.entity.Role;
 import com.example.busticketbooking.busticketbookingapi.entity.User;
 import com.example.busticketbooking.busticketbookingapi.repository.UserRepository;
@@ -38,11 +38,16 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<String> registerUser(UserRegisterDto requestDto){
+        System.out.println(requestDto.getUsername());
 
         // Check if the user already exists
-        if (userRepository.existsByUsername(requestDto.getUsername()) || userRepository.existsByEmail(requestDto.getEmail())) {
+        if (userRepository.existsByUsername(requestDto.getUsername())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("User already exists");
+                    .body("Username already exists,try different");
+        }
+        if(userRepository.existsByEmail(requestDto.getEmail())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Email already registered..");
         }
 
         User user = new User();
@@ -51,9 +56,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
         user.setUsername(requestDto.getUsername());
         user.setEmail(requestDto.getEmail());
-        user.setFirstName(requestDto.getFirstname());
-        user.setLastName(requestDto.getLastname());
 
+        //if no names are given , we give ot a dummy valve instead of null in DB
+        user.setFirstName(requestDto.getFirstname()!=null? requestDto.getFirstname() : "No Firstname");
+        user.setLastName(requestDto.getLastname() != null ? requestDto.getLastname() : "No Lastname");
+
+        //if there are no roles, we create a dummy role as USER
+        if(requestDto.getRoles()==null){
+            List<String> dummyRole = new ArrayList<>();
+            dummyRole.add("USER");
+            requestDto.setRoles(dummyRole);
+        }
 
         // Convert role names to Role enum instances
         List<Role> userRoles = new ArrayList<>();
@@ -78,6 +91,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<JwtResponseDTO> signInUser(SignInDto requestDTO) {
 
+        if(requestDTO.getUsername()==""){
+            if(!userRepository.existsByEmail(requestDTO.getEmail())) {
+                throw new UsernameNotFoundException("unregistered email..");
+            }
+            User user = userRepository.findByEmail(requestDTO.getEmail());
+            requestDTO.setUsername(user.getUsername());
+        }
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(requestDTO.getUsername(), requestDTO.getPassword()));
@@ -98,7 +118,7 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.ok(responseDTO);
 
         }else {
-            throw new UsernameNotFoundException("invalid user request..!!");
+            throw new UsernameNotFoundException("user not registered");
         }
     }
 

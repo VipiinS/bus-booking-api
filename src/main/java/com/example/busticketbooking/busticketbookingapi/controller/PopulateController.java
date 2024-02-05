@@ -1,12 +1,12 @@
 package com.example.busticketbooking.busticketbookingapi.controller;
 
-import com.example.busticketbooking.busticketbookingapi.dto.BusDto;
-import com.example.busticketbooking.busticketbookingapi.dto.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
+import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +25,8 @@ public class PopulateController {
     @PostMapping("/add-route")
     public ResponseEntity<?> populateRoutes(@RequestBody RouteDto routeData) {
         try {
-            populateService.populateRoutes(routeData);
-            return ResponseEntity.ok("Route from "+ routeData.getOrigin()+"to "+ routeData.getDestination()+" successfully");
+            Long routeId = populateService.populateRoutes(routeData);
+            return ResponseEntity.ok("Route from "+ routeData.getPickup()+" to "+ routeData.getDestination()+" successfully with route id: " + routeId);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -35,8 +35,8 @@ public class PopulateController {
     @PostMapping("/add-bus")
     public ResponseEntity<?> populateBus(@RequestBody BusDto busData){
         try {
-            populateService.populateBus(busData);
-            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to "+ busData.getRouteId()+" successfully");
+            Bus bus = populateService.populateBus(busData);
+            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to route:"+bus.getPickup() + "to " + bus.getDestination()+" successfully with route id: "+ bus.getRoute().getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
