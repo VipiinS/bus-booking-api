@@ -2,6 +2,7 @@ package com.example.busticketbooking.busticketbookingapi.controller;
 
 import com.example.busticketbooking.busticketbookingapi.dto.request.BusDto;
 import com.example.busticketbooking.busticketbookingapi.dto.request.RouteDto;
+import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 import com.example.busticketbooking.busticketbookingapi.service.Interfaces.PopulateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class PopulateController {
     @PostMapping("/add-bus")
     public ResponseEntity<?> populateBus(@RequestBody BusDto busData){
         try {
-            populateService.populateBus(busData);
-            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to "+ busData.getRouteId()+" successfully");
+            Bus bus = populateService.populateBus(busData);
+            return ResponseEntity.ok("Bus "+busData.getRegistrationNumber()+ " added to route:"+bus.getPickup() + "to " + bus.getDestination()+" successfully with route id: "+ bus.getRoute().getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

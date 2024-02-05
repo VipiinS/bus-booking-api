@@ -13,4 +13,6 @@ public class BusDto {
     private String type;
     private BigDecimal fare;
     private Long routeId;
+    private String pickup;
+    private String destination;
 }

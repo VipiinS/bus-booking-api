@@ -16,4 +16,7 @@ public interface RouteRepository extends JpaRepository<Route,Long> {
  List<String> findAllPickup();
  @Query("SELECT DISTINCT r.destination FROM Route r")
  List<String> findAllDestinations();
+
+ Optional<Route> findByPickupAndDestination(String pickup, String destination);
+
 }

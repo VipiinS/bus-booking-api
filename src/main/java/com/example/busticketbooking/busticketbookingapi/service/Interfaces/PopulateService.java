@@ -7,6 +7,6 @@ import com.example.busticketbooking.busticketbookingapi.entity.Bus;
 public interface PopulateService {
     Long populateRoutes(RouteDto routeData);
 
-    void populateBus(BusDto busData);
+    Bus populateBus(BusDto busData);
     void populateSeats(Bus bus);
 }

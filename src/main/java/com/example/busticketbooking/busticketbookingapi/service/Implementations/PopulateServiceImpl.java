@@ -31,44 +31,36 @@ public class PopulateServiceImpl implements PopulateService {
         if(routeData.getPickup() == null || routeData.getDestination() == null){
             throw new RuntimeException("Route needs origin and destination to persist");
         }
-        Route route = new Route();
-        route.setPickup(routeData.getPickup());
-        route.setDestination(routeData.getDestination());
-        route.setDate(routeData.getDate());
-        route.setDepartureTime(routeData.getDepartureTime());
-        route.setArrivalTime(routeData.getArrivalTime());
-
+        Route route = new Route(routeData);
         Route savedRoute = routeRepository.save(route);
 
         return savedRoute.getId();
     }
 
     @Override
-    public void populateBus(BusDto busData) {
-        Optional<Route> route;
-        try {
-            route = routeRepository.findById(busData.getRouteId());
-        }catch (Exception e){
-            throw new RouteNotFoundException(busData.getRouteId());
-        }
-        if (route.isPresent()) {
+    public Bus populateBus(BusDto busData) {
+        Optional<Route> routeOptional = routeRepository.findByPickupAndDestination(busData.getPickup(), busData.getDestination());
+        Route route;
+        if (routeOptional.isPresent()) {
+            route = routeOptional.get();
+        } else {
 
-            Bus bus = new Bus();
-
-            bus.setRegistrationNumber(busData.getRegistrationNumber());
-            bus.setCapacity(busData.getCapacity());
-            bus.setFare(busData.getFare());
-            bus.setType(busData.getType());
-            bus.setRoute(route.get());
-
-            busRepository.save(bus); //*Saving Bus to get its ID for Seat generation.
-
-            populateSeats(bus);  //*Populating Seats for the bus
+            // Create a new route if it doesn't exist
+            route = new Route();
+            route.setPickup(busData.getPickup());
+            route.setDestination(busData.getDestination());
+            // Set other route properties as needed
+            route = routeRepository.save(route);
 
         }
-        else{
-            throw new RuntimeException();
-        }
+
+        // Creating the bus
+        Bus bus = new Bus(busData,route);
+        busRepository.save(bus);
+
+        // Populate seats for the bus
+        populateSeats(bus);
+        return bus;
     }
 
     @Override
