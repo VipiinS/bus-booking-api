@@ -7,7 +7,8 @@ import java.util.List;
 
 
 public interface BusService {
-    public List<Bus> findBusByRoute(String origin, String destination);
 
     public List<AllBusesDto> convertBusToBusDto(List<Bus> buses);
-}
+    public List<AllBusesDto>findBusesByRoute(String pickup,String destination);
+
+    }

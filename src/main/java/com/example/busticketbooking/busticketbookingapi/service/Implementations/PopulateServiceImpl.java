@@ -39,12 +39,12 @@ public class PopulateServiceImpl implements PopulateService {
 
     @Override
     public Bus populateBus(BusDto busData) {
+
         Optional<Route> routeOptional = routeRepository.findByPickupAndDestination(busData.getPickup(), busData.getDestination());
         Route route;
         if (routeOptional.isPresent()) {
             route = routeOptional.get();
         } else {
-
             // Create a new route if it doesn't exist
             route = new Route();
             route.setPickup(busData.getPickup());

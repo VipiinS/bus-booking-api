@@ -52,9 +52,9 @@ public class OpenController {
 
             System.out.println("origin: "+pickup+ "destination: " + destination);
         try{
-            List<Bus> buses = busService.findBusByRoute(pickup,destination);
-            List<AllBusesDto> allBusesDtos = busService.convertBusToBusDto(buses);
-            return ResponseEntity.ok(allBusesDtos);
+            List<AllBusesDto> buses  = busService.findBusesByRoute(pickup,destination);
+//            List<AllBusesDto> allBusesDtos  = busService.convertBusToBusDto(buses);
+            return ResponseEntity.ok(buses);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
